@@ -12,7 +12,7 @@ export function listFoundations(filters: FoundationFilters = {}): Foundation[] {
   const db = getDb();
 
   let query = "SELECT * FROM foundations WHERE 1=1";
-  const params: any[] = [];
+  const params: (string | number)[] = [];
 
   if (filters.status) {
     query += " AND status = ?";
@@ -65,7 +65,7 @@ export function updateFoundation(
 ) {
   const db = getDb();
   const updates: string[] = [];
-  const params: any[] = [];
+  const params: (string | number | null)[] = [];
 
   if (data.status) {
     updates.push("status = ?");

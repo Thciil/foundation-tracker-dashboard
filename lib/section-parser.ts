@@ -1,5 +1,3 @@
-import { ContentType } from './types';
-
 export interface ContentSection {
   id: string;
   label: string;
@@ -12,8 +10,7 @@ export interface ContentSection {
  * Uses hybrid detection: known headers + standalone paragraphs
  */
 export function parseContentSections(
-  text: string,
-  contentType: ContentType
+  text: string
 ): ContentSection[] {
   const sections: ContentSection[] = [];
   const lines = text.split('\n');
@@ -37,7 +34,7 @@ export function parseContentSections(
 
     // Check if line matches a known header
     let matchedHeader: string | null = null;
-    for (const [key, pattern] of Object.entries(headerPatterns)) {
+    for (const [, pattern] of Object.entries(headerPatterns)) {
       if (pattern.test(line)) {
         matchedHeader = line;
         break;

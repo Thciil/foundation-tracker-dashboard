@@ -6,12 +6,13 @@ import { FoundationSummary } from "@/components/FoundationSummary";
 import { StatusUpdateForm } from "@/components/StatusUpdateForm";
 import { OutreachGenerator } from "@/components/OutreachGenerator";
 
-export default function FoundationDetailPage({
+export default async function FoundationDetailPage({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
-  const foundation = getFoundation(Number(params.id));
+  const { id } = await params;
+  const foundation = getFoundation(Number(id));
 
   if (!foundation) {
     return (

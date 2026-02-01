@@ -132,8 +132,8 @@ export function seedDatabase() {
         f.fit_score,
         f.notes
       );
-    } catch (error: any) {
-      if (!error.message.includes("UNIQUE")) {
+    } catch (error) {
+      if (error instanceof Error && !error.message.includes("UNIQUE")) {
         throw error;
       }
     }
