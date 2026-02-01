@@ -6,9 +6,10 @@ export const runtime = "nodejs";
 
 export async function POST(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
-  const foundation = getFoundation(Number(params.id));
+  const { id } = await params;
+  const foundation = getFoundation(Number(id));
   if (!foundation) {
     return NextResponse.json({ error: "Not found" }, { status: 404 });
   }

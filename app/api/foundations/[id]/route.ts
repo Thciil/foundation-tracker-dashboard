@@ -5,9 +5,10 @@ export const runtime = "nodejs";
 
 export async function GET(
   _request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
-  const foundation = getFoundation(Number(params.id));
+  const { id } = await params;
+  const foundation = getFoundation(Number(id));
   if (!foundation) {
     return NextResponse.json({ error: "Not found" }, { status: 404 });
   }
@@ -16,13 +17,14 @@ export async function GET(
 
 export async function PATCH(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
+  const { id } = await params;
   const body = await request.json();
-  const result = updateFoundation(Number(params.id), body);
+  const result = updateFoundation(Number(id), body);
   if (result.changes === 0) {
     return NextResponse.json({ error: "Not found" }, { status: 404 });
   }
-  const foundation = getFoundation(Number(params.id));
+  const foundation = getFoundation(Number(id));
   return NextResponse.json({ ok: true, foundation });
 }
